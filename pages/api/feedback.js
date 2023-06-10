@@ -3,6 +3,16 @@ import path from "path";
 
 import { v4 as uuidv4 } from "uuid";
 
+function buildFeedbackPath() {
+  return path.join(process.cwd(), "data", "feedback.json");
+}
+
+function extractFeedback(filePath) {
+  const fileData = fs.readFileSync(filePath, "utf8");
+  const data = JSON.parse(fileData);
+  return data;
+}
+
 function handler(req, res) {
   if (req.method === "POST") {
     const { email, text } = req.body;
@@ -14,16 +24,18 @@ function handler(req, res) {
     };
 
     // store in a file
-    const filePath = path.join(process.cwd(), "data", "feedback.json");
-    const data = fs.readFileSync(filePath, "utf8");
-    const parsedData = JSON.parse(data);
-    parsedData.push(newFeedback);
+    const filePath = buildFeedbackPath();
+    const data = extractFeedback(filePath);
+    data.push(newFeedback);
     fs.writeFileSync(filePath, JSON.stringify(parsedData));
 
     res.status(201).json({ message: "Success!", feedback: newFeedback });
   } else {
+    const filePath = buildFeedbackPath();
+    const data = extractFeedback(filePath);
+
     res.status(200).json({
-      message: "This works!",
+      feedback: data,
     });
   }
 }
