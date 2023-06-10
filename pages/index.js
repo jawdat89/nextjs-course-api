@@ -47,10 +47,10 @@ function HomePage() {
           <label htmlFor="feedback">feedback Address: </label>
           <textarea id="feedback" rows="5" ref={feedbackInputRef} />
         </div>
-        <button>Send feedback</button>
+        <button>Send Feedback</button>
       </form>
       <hr />
-      <button onClick={loadFeedbackHandler}>Load feedback</button>
+      <button onClick={loadFeedbackHandler}>Load Feedback</button>
       <ul>
         {feedbackItems?.map((item) => (
           <li key={item.id}>{item.text}</li>
